@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+
+<project default="run" basedir=".">
+	<property name="base" value="."/>
+	<property name="src" value="src"/>
+	<property name="build" value="classes"/>
+	<property name="myclasspath" value="${build}"/>
+
+
+	<target name="build">
+		<mkdir dir="${build}"/>
+		<javac srcdir="${src}" destdir="${build}" includeantruntime="true">
+			<include name="helloworld.java"/>
+		</javac>
+	</target>
+
+	<target name="run" depends="clean, build">
+		<exec executable="java">
+			<arg line="-classpath ${myclasspath} helloworld"/>
+		</exec>
+	</target>
+	
+	<target name="jar" depends="run">
+		<jar destfile="helloworld.jar" basedir="${build}">
+			<manifest>
+				<attribute name="Main-class" value="helloworld"/>
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="clean">
+		<delete includeEmptyDirs="true">
+			<fileset dir="${build}"/>
+		</delete>
+	</target>
+</project>
